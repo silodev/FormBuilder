@@ -19,6 +19,13 @@
   color: white;
 }
 
+.rc-draggable-list-handles {
+  margin-right: 50px;
+  font: bold 20px Sans-Serif;
+  color: #5F9EDF;
+  display: inline-block;
+}
+
 .App-link {
   color: #61dafb;
 }

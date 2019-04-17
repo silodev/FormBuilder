@@ -1,0 +1,5 @@
+export const formBuilderConstants = {
+    CONTENT_ORDER_CHANGED: 'CONTENT_ORDER_CHANGED',
+    ADD_ELEMENT: 'ADD_ELEMENT',
+    REMOVE_ELEMENT: 'REMOVE_ELEMENT'
+};
