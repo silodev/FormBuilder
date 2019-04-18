@@ -26,7 +26,7 @@ class TextField extends React.Component {
     const { linkUrl, buttonText, editable, style, id } = this.state;
     const { selectElement } = this.props;
     return (
-      <Paper>
+      <React.Fragment>
         {style && editable ? (
           <div style={{ backgroundColor: "#222", padding: 4 }}>
             <input
@@ -47,7 +47,7 @@ class TextField extends React.Component {
         <div onClick={() => editable && selectElement(id)}>
           <button onClick={this.handleClick}>{buttonText}</button>
         </div>
-      </Paper>
+      </React.Fragment>
     );
   }
 }

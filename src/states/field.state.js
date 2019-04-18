@@ -10,7 +10,9 @@ export const fullNameFieldState = {
   id: 0,
   style: {
     color: "black",
-    padding: 4
+    padding: 4,
+    textAlign: 'center',
+    fontSize: '14px'
   }
 };
 
@@ -22,8 +24,6 @@ export const TextFieldState = {
     },
     text: 'Some text...'
 };
-
-
 export const linkButtonState = {
     editable: false,
     id: 0,

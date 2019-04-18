@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { getFieldByName } from "../../helpers/getFieldByName";
+import { renderField } from "../../helpers/renderField";
 
 class Form extends React.Component {
   state = {
@@ -43,7 +43,7 @@ class Form extends React.Component {
         <form onSubmit={this.handleSubmit}>
           {formContent &&
             JSON.parse(formContent).map(e => {
-              return getFieldByName(e.component, e.id, e.state, false);
+              return renderField(e.component, e.id, e.state, false);
             })}
           {formContent && <button type="submit">Submit</button>}
         </form>

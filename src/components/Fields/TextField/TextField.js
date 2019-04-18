@@ -22,7 +22,7 @@ class TextField extends React.Component {
     const { text, editable, style, id } = this.state;
     const { selectElement } = this.props;
     return (
-      <Paper >
+      <React.Fragment >
         {style && editable ? (
           <div style={{ backgroundColor: "#222", padding: 4 }}>
             <textarea
@@ -37,7 +37,7 @@ class TextField extends React.Component {
         <div onClick={() => editable && selectElement(id)}>
           <p>{text}</p>
         </div>
-      </Paper>
+      </React.Fragment>
     );
   }
 }

@@ -6,7 +6,7 @@ import FullNameField from "../components/Fields/FullNameField/FullNameField";
 import TextField from "../components/Fields/TextField/TextField";
 import LinkButton from "../components/Fields/LinkButton/LinkButton";
 
-export const getFieldByName = (type, id, state, editable) => {
+export const renderField = (type, id, state, editable) => {
   switch (type) {
     case fieldConstants.FULL_NAME_FIELD:
       return <FullNameField id={id} state={state} editable={editable} />;

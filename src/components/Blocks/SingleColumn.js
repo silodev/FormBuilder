@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { Droppable } from "react-beautiful-dnd";
 import { Col, Row, Container } from "reactstrap";
 
-import { getFieldByName } from "../../helpers/getFieldByName";
+import { renderField } from "../../helpers/renderField";
 
 import { fieldConstants } from "../../constants/field.constants";
 import { fullNameFieldState } from "../../states/field.state";

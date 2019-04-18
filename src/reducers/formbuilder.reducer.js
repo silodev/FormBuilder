@@ -7,7 +7,9 @@ export const newId = () => {
 
 const initialState = {
   elements: [],
-  selectedElement: null
+  selectedElement: null,
+  editorOpen: false,
+  snapshot: []
 };
 
 export const formBuilder = (state = initialState, action) => {
@@ -18,7 +20,12 @@ export const formBuilder = (state = initialState, action) => {
         ...state,
         elements: [
           ...state.elements,
-          { component: action.fieldType, id: newId(), state: action.state }
+          {
+            component: action.fieldType,
+            id: newId(),
+            state: action.state,
+            settingsComponent: action.fieldSettingsType
+          }
         ]
       };
     case "SELECT_ELEMENT":
@@ -39,9 +46,19 @@ export const formBuilder = (state = initialState, action) => {
           ...state.elements.map(e =>
             e.id === action.id ? { ...e, state: action.state } : e
           )
-        ]
+        ],
+      /*   selectedElement: {...state.selectedElement, state: action.state} */
       };
-
+    case "OPEN_EDITOR":
+      return {
+        ...state,
+        editorOpen: true
+      };
+    case "CLOSE_EDITOR":
+      return {
+        ...state,
+        editorOpen: false
+      };
     case "SAVE_FORM":
       return {
         ...state,
@@ -59,7 +76,7 @@ export const formBuilder = (state = initialState, action) => {
     case "REMOVE_ELEMENT":
       return {
         ...state,
-        elements: action.elements
+        elements: [...state.elements.filter(e => e.id !== action.id)]
       };
     default:
       return state;

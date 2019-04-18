@@ -9,8 +9,13 @@ import ListItemText from "@material-ui/core/ListItemText";
 
 import { fieldConstants } from "../../constants/field.constants";
 
-import { fullNameFieldState, TextFieldState, linkButtonState } from "../../states/field.state";
+import {
+  fullNameFieldState,
+  TextFieldState,
+  linkButtonState
+} from "../../states/field.state";
 import { blockConstants } from "../../constants/block.constants";
+import { fieldSettingsConstants } from "../../constants/field.settings.contants";
 
 const styles = theme => ({
   categoryHeader: {
@@ -74,7 +79,11 @@ class ContentSideDrawer extends React.Component {
           dense
           key={1}
           onClick={() =>
-            addElement(fieldConstants.FULL_NAME_FIELD, fullNameFieldState)
+            addElement(
+              fieldConstants.FULL_NAME_FIELD,
+              fullNameFieldState,
+              fieldSettingsConstants.FULL_NAME_FIELD_SETTINGS
+            )
           }
           className={classNames(
             classes.item,
@@ -95,9 +104,7 @@ class ContentSideDrawer extends React.Component {
           button
           dense
           key={1}
-          onClick={() =>
-            addElement(fieldConstants.TEXT_FIELD, TextFieldState)
-          }
+          onClick={() => addElement(fieldConstants.TEXT_FIELD, TextFieldState)}
           className={classNames(
             classes.item,
             classes.itemActionable,
@@ -116,7 +123,7 @@ class ContentSideDrawer extends React.Component {
         <ListItem
           button
           dense
-          key={1}
+          key={3}
           onClick={() =>
             addElement(fieldConstants.LINK_BUTTON, linkButtonState)
           }
@@ -139,7 +146,7 @@ class ContentSideDrawer extends React.Component {
         <ListItem
           button
           dense
-          key={1}
+          key={2}
           onClick={() => addElement(blockConstants.SINGLE_COLUMN)}
           className={classNames(
             classes.item,
@@ -176,8 +183,13 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    addElement: (fieldType, state) =>
-      dispatch({ type: "ADD_ELEMENT", fieldType: fieldType, state: state }),
+    addElement: (fieldType, state, fieldSettingsType) =>
+      dispatch({
+        type: "ADD_ELEMENT",
+        fieldType: fieldType,
+        state: state,
+        fieldSettingsType: fieldSettingsType
+      }),
     addBlock: blockType =>
       dispatch({ type: "ADD_BLOCK", blockType: blockType }),
     saveForm: () => dispatch({ type: "SAVE_FORM" })

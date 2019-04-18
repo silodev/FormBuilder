@@ -1,23 +1,21 @@
 import React from "react";
 import { connect } from "react-redux";
-import Paper from "@material-ui/core/Paper";
+import ContentEditable from "react-contenteditable";
+import { InputGroup, InputGroupAddon, Input } from "reactstrap";
 
 class FullNameField extends React.Component {
   state = {};
-
-  componentDidMount() {
+  componentWillMount() {
     const { editable, id, state } = this.props;
     console.log(state);
     this.setState({ ...state, id: id, editable: editable });
   }
-  //USER LODASH INSTEAD
-  handleChange = e => {
-    const { id } = this.state;
-    console.log(e);
-    const { editElement } = this.props;
-    const { name, value } = e.target;
-    this.setState({ [name]: value }, () => editElement(id, this.state));
-  };
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.state !== this.props.state) {
+      const { editable, id, state } = this.props;
+      this.setState({ ...state, id: id, editable: editable });
+    }
+  }
   handleInputChange = e => {
     const { id } = this.state;
     const { editElement } = this.props;
@@ -26,27 +24,14 @@ class FullNameField extends React.Component {
       editElement(id, this.state)
     );
   };
-
-  handleStyleChange = e => {
+  handleContentChange = (e, name) => {
+    console.log(e);
     const { id } = this.state;
     const { editElement } = this.props;
-    const { name, value } = e.target;
-    console.log(value);
-    this.setState({ style: { ...this.state.style, [name]: value } }, () =>
+    this.setState({ [name]: e.target.value }, () =>
       editElement(id, this.state)
     );
   };
-
-  handleFullStyleChange = e => {
-    const { id } = this.state;
-    const { editElement } = this.props;
-    const { name, value } = e.target;
-    console.log(value);
-    this.setState({ style: JSON.parse(value) }, () =>
-      editElement(id, this.state)
-    );
-  };
-
   render() {
     const {
       values,
@@ -58,73 +43,76 @@ class FullNameField extends React.Component {
       id
     } = this.state;
     const { selectElement } = this.props;
+    console.log(this.props);
     return (
-      <Paper>
-        {style && editable ? (
-          <div style={{ backgroundColor: "#222", padding: "15px" }}>
-            <input
-              placeholder="textcolor"
-              name="color"
-              value={style.color}
-              onChange={this.handleStyleChange}
-            />
-            <input
-              placeholder="padding"
-              name="padding"
-              /*       type="number" */
-              value={style.padding}
-              onChange={this.handleStyleChange}
-            />
-            <br />
-            <input
-              name="firstnameLabel"
-              value={firstnameLabel}
-              onChange={this.handleChange}
-            />
-            <input
-              name="lastnameLabel"
-              value={lastnameLabel}
-              onChange={this.handleChange}
-            />
-            <input
-              name="fieldLabel"
-              value={fieldLabel}
-              onChange={this.handleChange}
-            />
-            />
-          </div>
-        ) : null}
-        <hr />
+      <React.Fragment>
         <div
           style={{ padding: style && style.padding }}
           onClick={() => editable && selectElement(id)}
         >
-          <h2 >{fieldLabel}</h2>
+          <ContentEditable
+            style={{ textAlign: style && style.textAlign , margin: '5px', fontSize: style && style.fontSize}}
+            innerRef={this.contentEditable}
+            html={fieldLabel} // innerHTML of the editable div
+            disabled={false} // use true to disable editing
+            onChange={e => this.handleContentChange(e, "fieldLabel")} // handle innerHTML change
+            tagName="h2" // Use a custom HTML tag (uses a div by default)
+          />
           <hr />
-          <label>{firstnameLabel}</label>
-          <input
-            name="firstname"
-            onChange={this.handleInputChange}
-            value={values ? values.firstname : ""}
-          />
-          <br />
-          <label>{lastnameLabel}</label>
-          <input
-            name="lastname"
-            onChange={this.handleChange}
-            value={values ? values.lastname : ""}
-          />
+          <InputGroup size="sm" style={{ width: "300px", margin: "auto" }}>
+            <InputGroupAddon addonType="prepend">
+              <ContentEditable
+                style={{
+                  minWidth: "100px",
+                  marginRight: "5px",
+                  padding: "10px"
+                }}
+                innerRef={this.contentEditable}
+                html={firstnameLabel} // innerHTML of the editable div
+                disabled={false} // use true to disable editing
+                onChange={e => this.handleContentChange(e, "firstnameLabel")} // handle innerHTML change
+                tagName="label" // Use a custom HTML tag (uses a div by default)
+              />
+            </InputGroupAddon>
+            <Input
+              name="firstname"
+              onChange={this.handleInputChange}
+              value={values ? values.firstname : ""}
+            />
+          </InputGroup>
+          <InputGroup size="sm" style={{ width: "300px", margin: "auto" }}>
+            <InputGroupAddon addonType="prepend">
+              <ContentEditable
+                style={{
+                  minWidth: "100px",
+                  marginRight: "5px",
+                  padding: "5px"
+                }}
+                innerRef={this.contentEditable}
+                html={lastnameLabel} // innerHTML of the editable div
+                disabled={false} // use true to disable editing
+                onChange={e => this.handleContentChange(e, "lastnameLabel")} // handle innerHTML change
+                tagName="label" // Use a custom HTML tag (uses a div by default)
+              />
+            </InputGroupAddon>
+            <Input
+              name="lastname"
+              onChange={this.handleInputChange}
+              value={values ? values.lastname : ""}
+            />
+          </InputGroup>
         </div>
-      </Paper>
+      </React.Fragment>
     );
   }
 }
 
 function mapStateToProps(state) {
-  const { elements } = state.formBuilder;
+  const { elements, selectedElement } = state.formBuilder;
   console.log(state);
   return {
-    elements
+    elements,
+    selectedElement
   };
 }
 
